@@ -376,7 +376,7 @@ namespace Microsoft.Xna.Framework
 		
 		protected virtual void LoadContent()
 		{			
-			string DefaultPath = "Default.png";
+			string DefaultPath = "Content/backgroundtop.png";
 			if (File.Exists(DefaultPath))
 			{
 				// Store the RootDir for later 
