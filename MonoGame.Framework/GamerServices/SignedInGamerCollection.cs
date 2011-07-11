@@ -40,6 +40,7 @@ purpose and non-infringement.
 
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Microsoft.Xna.Framework.GamerServices
 {
@@ -51,7 +52,7 @@ namespace Microsoft.Xna.Framework.GamerServices
 		{ 
 			get
 			{
-				return new SignedInGamer();
+				return this.FirstOrDefault();
 			}
 		}
 		#endregion
