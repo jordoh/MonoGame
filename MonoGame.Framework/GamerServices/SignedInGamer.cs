@@ -57,20 +57,15 @@ namespace Microsoft.Xna.Framework.GamerServices
 		private AchievementCollection gamerAchievements;
 		private FriendCollection friendCollection;
 		
-		delegate void AuthenticationDelegate();
-		
 		public IAsyncResult BeginAuthentication(AsyncCallback callback, Object asyncState)
 		{
-			// Go off authenticate
-			AuthenticationDelegate ad = DoAuthentication; 
-			
+			Action ad = DoAuthentication; 
 			return ad.BeginInvoke(callback, ad);
 		}
 		
 		public void EndAuthentication( IAsyncResult result )
 		{
-			AuthenticationDelegate ad = (AuthenticationDelegate)result.AsyncState; 
-			
+			Action ad = result.AsyncState as Action;
 			ad.EndInvoke(result);
 		}
 		
@@ -79,41 +74,38 @@ namespace Microsoft.Xna.Framework.GamerServices
 			try 				
 			{
 				var osVersion = UIDevice.CurrentDevice.SystemVersion;
-				if(osVersion.Contains("."))
-				if(osVersion.IndexOf(".") != osVersion.LastIndexOf("."))
+				if(osVersion.Contains(".") && osVersion.IndexOf(".") != osVersion.LastIndexOf("."))
 				{
 					var parts = osVersion.Split(char.Parse("."));
 					osVersion = parts[0] + "." + parts[1];
 				}
 				
-				if (double.Parse(osVersion) > 4.1)
-				{
-					
-					lp = GKLocalPlayer.LocalPlayer;
-			        if (lp != null)
+				if (double.Parse(osVersion) < 4.1)
+					return;
+				
+				lp = GKLocalPlayer.LocalPlayer;
+		        if (lp == null)
+					return;
+				
+				Guide.IsVisible = true;
+				lp.Authenticate(delegate(NSError error) 
+            	{  							              
+					try 
 					{
-						Guide.IsVisible = true;
-						lp.Authenticate( delegate(NSError error) 
-						                	{  							              
-												try 
-												{
-													if ( error != null )
-													{
-														Console.WriteLine(error);
-													}
-													else
-													{
-														
-													}
-												} 
-												finally 
-												{
-													Guide.IsVisible = false;
-												}
-											}
-						                );
+						if (error != null)
+						{
+							Console.WriteLine(error);
+						}
+						else
+						{
+							HandleAuthentication();
+						}
+					} 
+					finally 
+					{
+						Guide.IsVisible = false;
 					}
-				}
+				});
 			}
 			catch (Exception ex) 
 			{
@@ -123,30 +115,34 @@ namespace Microsoft.Xna.Framework.GamerServices
 		
 		public SignedInGamer()
 		{
-			
 			// Register to receive the GKPlayerAuthenticationDidChangeNotificationName so we are notified when 
 			// Authentication changes
-			NSNotificationCenter.DefaultCenter.AddObserver( new NSString("GKPlayerAuthenticationDidChangeNotificationName"), (notification) => {   
-        													    if (lp !=null && lp.Authenticated)
-																{
-																	this.Gamertag = lp.Alias;
-																	this.DisplayName = lp.PlayerID;	
-														        	// Insert code here to handle a successful authentication.
-																	Gamer.SignedInGamers.Add(this);
-																	// Fire the SignedIn event
-																	OnSignedIn(new SignedInEventArgs(this) );
-																}
-														    	else
-																{
-														        	// Insert code here to clean up any outstanding Game Center-related classes.
-																	Gamer.SignedInGamers.Remove(this);
-																	// Fire the SignedOut event
-																	OnSignedOut(new SignedOutEventArgs(this) );
-																}
-	    													});	
+			NSNotificationCenter.DefaultCenter.AddObserver(
+				new NSString("GKPlayerAuthenticationDidChangeNotificationName"), 
+				(notification) => HandleAuthentication());
 			
 			var result = BeginAuthentication(null, null);	
 			EndAuthentication( result );
+		}
+		
+		private void HandleAuthentication()
+		{
+			if (lp !=null && lp.Authenticated)
+			{
+				this.Gamertag = lp.Alias;
+				this.DisplayName = lp.PlayerID;	
+	        	// Insert code here to handle a successful authentication.
+				Gamer.SignedInGamers.Add(this);
+				// Fire the SignedIn event
+				OnSignedIn(new SignedInEventArgs(this) );
+			}
+	    	else
+			{
+	        	// Insert code here to clean up any outstanding Game Center-related classes.
+				Gamer.SignedInGamers.Remove(this);
+				// Fire the SignedOut event
+				OnSignedOut(new SignedOutEventArgs(this) );
+			}
 		}
 		
 		private void AuthenticationCompletedCallback( IAsyncResult result )
