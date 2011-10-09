@@ -282,11 +282,17 @@ namespace Microsoft.Xna.Framework
 			_view.ShareGroup = _view.MainContext.ShareGroup;
 			_view.BackgroundContext = new MonoTouch.OpenGLES.EAGLContext(_view.ContextRenderingApi, _view.ShareGroup);
 			
-			//Show the window			
-			_mainWindow.MakeKeyAndVisible();	
 			
 			Accelerometer.SetupAccelerometer();			
 			Initialize();
+			
+			// Draw the splash screen to the render buffer before making the window visible so 
+			// there is no flicker when a blank render buffer is made visible
+			DrawSplashScreen();
+			_view.SwapBuffers();
+			
+			//Show the window			
+			_mainWindow.MakeKeyAndVisible();
 			
 			// Listen out for rotation changes
 			ObserveDeviceRotation();
@@ -427,9 +433,7 @@ namespace Microsoft.Xna.Framework
 		protected virtual void LoadContent()
 		{		
 			var DefaultPath = DefaultPngFile;
-			//string[] files = Directory.GetFiles(Directory.GetCurrentDirectory(), "Default*~iphone.png",SearchOption.TopDirectoryOnly);
 			var model = UIDevice.CurrentDevice.Model;
-				string suffix = "";
 			bool isIpad = !model.ToLower().Contains("iphone");
 			Console.WriteLine(DefaultPath);
 			if (File.Exists(DefaultPath))
@@ -466,7 +470,6 @@ namespace Microsoft.Xna.Framework
 			get{
 				
 				var model = UIDevice.CurrentDevice.Model;
-				string suffix = "";
 				if ( !model.ToLower().Contains("iphone") )
 				{
 					string[] files = Directory.GetFiles(Directory.GetCurrentDirectory(), "Default*~ipad.png",SearchOption.TopDirectoryOnly);
@@ -589,14 +592,7 @@ namespace Microsoft.Xna.Framework
         {
 			if ( _initializing )
 			{
-				if ( spriteBatch != null )
-				{
-					spriteBatch.Begin();
-					
-					// We need to turn this into a progress bar or animation to give better user feedback
-					spriteBatch.Draw(splashScreen, new Vector2(0, 0), Color.White );
-					spriteBatch.End();
-				}
+				DrawSplashScreen();
 			}
 			else
 			{
@@ -621,6 +617,19 @@ namespace Microsoft.Xna.Framework
 				}
 			}
         }
+		
+		private void DrawSplashScreen()
+		{
+			if ( spriteBatch != null )
+			{
+				spriteBatch.Begin();
+				
+				// We need to turn this into a progress bar or animation to give better user feedback
+				spriteBatch.Draw(splashScreen, new Vector2(0, 0), Color.White );
+				spriteBatch.End();
+			}
+		}
+		
 
         public void Exit()
         {
