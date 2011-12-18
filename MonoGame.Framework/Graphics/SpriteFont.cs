@@ -72,12 +72,20 @@ namespace Microsoft.Xna.Framework.Graphics
 
             foreach (char c in text)
             {
-                if (c == '\n')
+                if (c == '\r')
                 {
                     yoffset += LineSpacing;
                     xoffset = 0;
                     continue;
                 }
+				
+				if (c == '\n')
+                {
+                    yoffset += LineSpacing * 2;
+                    xoffset = 0;
+                    continue;
+                }
+				
                 if (characterData.ContainsKey(c) == false) continue;
                 GlyphData g = characterData[c];				
                 xoffset += g.Kerning.Y + g.Kerning.Z + Spacing;
@@ -88,6 +96,12 @@ namespace Microsoft.Xna.Framework.Graphics
                 }
                 if (xoffset > v.X) v.X = xoffset;
             }
+			
+			if (yoffset > v.Y)
+			{
+				v.Y = yoffset;
+			}
+			
             return v;
         }
 
