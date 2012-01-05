@@ -9,7 +9,7 @@ using OpenTK.Graphics.ES11;
 
 namespace Microsoft.Xna.Framework.Graphics
 {
-	struct GlyphData
+	public struct GlyphData
     {
         public char CharacterIndex;
         public Rectangle Glyph;
