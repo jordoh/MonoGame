@@ -302,13 +302,38 @@ namespace Microsoft.Xna.Framework
 		{
 			if (_isActive)
 			{
-				Update(aGameTime);
+				if (_initialized)
+				{
+					Update(aGameTime);
+				}
+				else
+				{
+					if (!_initializing) 
+					{
+						_initializing = true;
+						
+						// Use OpenGLES context switching as described here
+						// http://developer.apple.com/iphone/library/qa/qa2010/qa1612.html
+						InitialiseGameComponentsDelegate initD = new InitialiseGameComponentsDelegate(InitializeGameComponents);
+	
+						// Invoke on thread from the pool
+	        			initD.BeginInvoke( 
+							delegate (IAsyncResult iar) 
+						    {
+								// We must have finished initialising, so set our flag appropriately
+								// So that we enter the Update loop
+							    _initialized = true;
+								_initializing = false;
+							}, 
+						initD);
+					}
+				}
 			}
 		}
 		
 		internal void DoDraw(GameTime aGameTime)
 		{
-			if (_isActive)
+			if (_initialized && _isActive)
 			{
 				Draw(aGameTime);
 			}
@@ -551,7 +576,7 @@ namespace Microsoft.Xna.Framework
 
         protected virtual void Update(GameTime gameTime)
         {			
-			if ( _initialized  && !Guide.IsVisible )
+			if ( !Guide.IsVisible )
 			{				
 				// Changed from foreach to for loop in case the GameComponents's Update method
 				//   modifies the component collection.  With a foreach it causes an error:
@@ -562,28 +587,6 @@ namespace Microsoft.Xna.Framework
 					if (gc.Enabled) {
 						gc.Update (gameTime);
 					}
-				}
-			}
-			else
-			{
-				if (!_initializing) 
-				{
-					_initializing = true;
-					
-					// Use OpenGLES context switching as described here
-					// http://developer.apple.com/iphone/library/qa/qa2010/qa1612.html
-					InitialiseGameComponentsDelegate initD = new InitialiseGameComponentsDelegate(InitializeGameComponents);
-
-					// Invoke on thread from the pool
-        			initD.BeginInvoke( 
-						delegate (IAsyncResult iar) 
-					    {
-							// We must have finished initialising, so set our flag appropriately
-							// So that we enter the Update loop
-						    _initialized = true;
-							_initializing = false;
-						}, 
-					initD);
 				}
 			}
         }
