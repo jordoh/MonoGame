@@ -59,12 +59,17 @@ namespace Microsoft.Xna.Framework.Graphics
             {
                 int blockCountX = (width + 3) / 4;
                 int blockCountY = (height + 3) / 4;
+				
+				byte[] colorBuffer = new byte[4];
+				byte[] color0 =  new byte[3];
+				byte[] color1 =  new byte[3];
                 
                 for (int y = 0; y < blockCountY; y++)
                 {
                     for (int x = 0; x < blockCountX; x++)
                     {
-						DecompressDxt1Block(imageReader, x, y, blockCountX, imageData);
+						DecompressDxt1Block(imageReader, x, y, blockCountX, imageData,
+						                    colorBuffer, color0, color1);
 					}
                 }
             }
@@ -72,48 +77,48 @@ namespace Microsoft.Xna.Framework.Graphics
             return imageData;
         }
 
-        private static void DecompressDxt1Block(BinaryReader imageReader, int x, int y, int width, byte[] imageData)
+        private static void DecompressDxt1Block(BinaryReader imageReader, int x, int y, int width, byte[] imageData,
+		                                        byte[] colorBuffer, byte[] color0, byte[] color1)
         {
             ushort c0 = imageReader.ReadUInt16();
             ushort c1 = imageReader.ReadUInt16();
 
-            byte[] color0 = ConvertRgb565ToRgb888(c0);
-            byte[] color1 = ConvertRgb565ToRgb888(c1);
+            ConvertRgb565ToRgb888(color0, c0);
+            ConvertRgb565ToRgb888(color1, c1);
 
             uint lookupTable = imageReader.ReadUInt32();
-
+			
             for (int blockY = 0; blockY < 4; blockY++)
             {
                 for (int blockX = 0; blockX < 4; blockX++)
                 {
-                    byte[] finalColor = new byte[4];
                     uint index = (lookupTable >> 2 * (4 * blockY + blockX)) & 0x03;
                     
                     if (c0 > c1)
                     {
                         switch (index)
                         {
-                            case 0: finalColor = GetRgba(color0[0], color0[1], color0[2]); break;
-                            case 1: finalColor = GetRgba(color1[0], color1[1], color1[2]); break;
-                            case 2: finalColor = GetRgba((byte)((2 * color0[0] + color1[0]) / 3), (byte)((2 * color0[1] + color1[1]) / 3), (byte)((2 * color0[2] + color1[2]) / 3)); break;
-                            case 3: finalColor = GetRgba((byte)((color0[0] + 2 * color1[0]) / 3), (byte)((color0[1] + 2 * color1[1]) / 3), (byte)((color0[2] + 2 * color1[2]) / 3)); break;
+                            case 0: GetRgba(colorBuffer, color0[0], color0[1], color0[2]); break;
+                            case 1: GetRgba(colorBuffer, color1[0], color1[1], color1[2]); break;
+                            case 2: GetRgba(colorBuffer, (byte)((2 * color0[0] + color1[0]) / 3), (byte)((2 * color0[1] + color1[1]) / 3), (byte)((2 * color0[2] + color1[2]) / 3)); break;
+                            case 3: GetRgba(colorBuffer, (byte)((color0[0] + 2 * color1[0]) / 3), (byte)((color0[1] + 2 * color1[1]) / 3), (byte)((color0[2] + 2 * color1[2]) / 3)); break;
                         }
                     }
                     else
                     {
                         switch (index)
                         {
-                            case 0: finalColor = GetRgba(color0[0], color0[1], color0[2]); break;
-                            case 1: finalColor = GetRgba(color1[0], color1[1], color1[2]); break;
-                            case 2: finalColor = GetRgba((byte)((color0[0] + color1[0]) / 2), (byte)((color0[1] + color1[1]) / 2), (byte)((color0[2] + color1[2]) / 2)); break;
-                            case 3: finalColor = GetRgba(0, 0, 0); break;
+                            case 0: GetRgba(colorBuffer, color0[0], color0[1], color0[2]); break;
+                            case 1: GetRgba(colorBuffer, color1[0], color1[1], color1[2]); break;
+                            case 2: GetRgba(colorBuffer, (byte)((color0[0] + color1[0]) / 2), (byte)((color0[1] + color1[1]) / 2), (byte)((color0[2] + color1[2]) / 2)); break;
+                            case 3: GetRgba(colorBuffer, 0, 0, 0); break;
                         }
                     }
 					
-					imageData[y * width * 64 + blockY * width * 16 + x * 16 + blockX * 4] = finalColor[0];
-					imageData[y * width * 64 + blockY * width * 16 + x * 16 + blockX * 4 + 1] = finalColor[1];
-					imageData[y * width * 64 + blockY * width * 16 + x * 16 + blockX * 4 + 2] = finalColor[2];
-					imageData[y * width * 64 + blockY * width * 16 + x * 16 + blockX * 4 + 3] = finalColor[3];
+					imageData[y * width * 64 + blockY * width * 16 + x * 16 + blockX * 4] = colorBuffer[0];
+					imageData[y * width * 64 + blockY * width * 16 + x * 16 + blockX * 4 + 1] = colorBuffer[1];
+					imageData[y * width * 64 + blockY * width * 16 + x * 16 + blockX * 4 + 2] = colorBuffer[2];
+					imageData[y * width * 64 + blockY * width * 16 + x * 16 + blockX * 4 + 3] = colorBuffer[3];
                 }
 			}
         }
@@ -132,12 +137,18 @@ namespace Microsoft.Xna.Framework.Graphics
             {
                 int blockCountX = (width + 3) / 4;
                 int blockCountY = (height + 3) / 4;
+				
+				byte[] colorBuffer = new byte[4];
+				byte[] alphaBuffer = new byte[2];
+				byte[] color0 =  new byte[3];
+				byte[] color1 =  new byte[3];
 
                 for (int y = 0; y < blockCountY; y++)
                 {
                     for (int x = 0; x < blockCountX; x++)
                     {
-                        DecompressDxt3Block(imageReader, x, y, blockCountX, imageData);
+                        DecompressDxt3Block(imageReader, x, y, blockCountX, imageData, 
+						                    colorBuffer, alphaBuffer, color0, color1);
 					}
                 }
             }
@@ -145,74 +156,79 @@ namespace Microsoft.Xna.Framework.Graphics
             return imageData;
         }
 
-        private static void DecompressDxt3Block(BinaryReader imageReader, int x, int y, int width, byte[] imageData)
+        private static void DecompressDxt3Block(BinaryReader imageReader, int x, int y, int width, byte[] imageData, 
+		                                        byte[] colorBuffer, byte[] alphaBuffer, byte[] color0, byte[] color1)
         {
             byte[] alpha = imageReader.ReadBytes(8);
             
             ushort c0 = imageReader.ReadUInt16();
             ushort c1 = imageReader.ReadUInt16();
 
-            byte[] color0 = ConvertRgb565ToRgb888(c0);
-            byte[] color1 = ConvertRgb565ToRgb888(c1);
+            ConvertRgb565ToRgb888(color0, c0);
+            ConvertRgb565ToRgb888(color1, c1);
 
             uint lookupTable = imageReader.ReadUInt32();
-
+			
             for (int blockY = 0; blockY < 4; blockY++)
             {
                 for (int blockX = 0; blockX < 4; blockX++)
                 {
-                    byte[] finalColor = new byte[4];
-                    uint index = (lookupTable >> 2 * (4 * blockY + blockX)) & 0x03;
-
+					int blockOffset = 4 * blockY + blockX;
+					Convert8BitTo4Bit(alphaBuffer, alpha[blockOffset / 2]);
+					
+					uint index = (lookupTable >> 2 * blockOffset) & 0x03;
                     switch (index)
                     {
-                        case 0: finalColor = GetRgba(color0[0], color0[1], color0[2], Convert8BitTo4Bit(alpha[(4 * blockY + blockX) / 2])[(4 * blockY + blockX) % 2]); break;
-                        case 1: finalColor = GetRgba(color1[0], color1[1], color1[2], Convert8BitTo4Bit(alpha[(4 * blockY + blockX) / 2])[(4 * blockY + blockX) % 2]); break;
-                        case 2: finalColor = GetRgba((byte)((2 * color0[0] + color1[0]) / 3), (byte)((2 * color0[1] + color1[1]) / 3), (byte)((2 * color0[2] + color1[2]) / 3), Convert8BitTo4Bit(alpha[(4 * blockY + blockX) / 2])[(4 * blockY + blockX) % 2]); break;
-                        case 3: finalColor = GetRgba((byte)((color0[0] + 2 * color1[0]) / 3), (byte)((color0[1] + 2 * color1[1]) / 3), (byte)((color0[2] + 2 * color1[2]) / 3), Convert8BitTo4Bit(alpha[(4 * blockY + blockX) / 2])[(4 * blockY + blockX) % 2]); break;
+                        case 0: GetRgba(colorBuffer, color0[0], color0[1], color0[2], alphaBuffer[blockOffset % 2]); break;
+                        case 1: GetRgba(colorBuffer, color1[0], color1[1], color1[2], alphaBuffer[blockOffset % 2]); break;
+                        case 2: GetRgba(colorBuffer, (byte)((2 * color0[0] + color1[0]) / 3), (byte)((2 * color0[1] + color1[1]) / 3), (byte)((2 * color0[2] + color1[2]) / 3), alphaBuffer[blockOffset % 2]); break;
+                        case 3: GetRgba(colorBuffer, (byte)((color0[0] + 2 * color1[0]) / 3), (byte)((color0[1] + 2 * color1[1]) / 3), (byte)((color0[2] + 2 * color1[2]) / 3), alphaBuffer[blockOffset % 2]); break;
                     }
-
-					imageData[y * width * 64 + blockY * width * 16 + x * 16 + blockX * 4] = finalColor[0];
-					imageData[y * width * 64 + blockY * width * 16 + x * 16 + blockX * 4 + 1] = finalColor[1];
-					imageData[y * width * 64 + blockY * width * 16 + x * 16 + blockX * 4 + 2] = finalColor[2];
-					imageData[y * width * 64 + blockY * width * 16 + x * 16 + blockX * 4 + 3] = finalColor[3];
+					
+					int imageDataIndex = y * width * 64 + blockY * width * 16 + x * 16 + blockX * 4;
+					imageData[imageDataIndex] = colorBuffer[0];
+					imageData[imageDataIndex + 1] = colorBuffer[1];
+					imageData[imageDataIndex + 2] = colorBuffer[2];
+					imageData[imageDataIndex + 3] = colorBuffer[3];
                 }
             }
         }
 
-        private static byte[] ConvertRgb565ToRgb888(ushort color)
+        private static void ConvertRgb565ToRgb888(byte[] buffer, ushort color)
         {
-            int temp;
-
-            temp = (color >> 11) * 255 + 16;
-            byte r = (byte)((temp / 32 + temp) / 32);
+            int temp = (color >> 11) * 255 + 16;
+            buffer[0] = (byte)((temp / 32 + temp) / 32);
             temp = ((color & 0x07E0) >> 5) * 255 + 32;
-            byte g = (byte)((temp / 64 + temp) / 64);
+            buffer[1] = (byte)((temp / 64 + temp) / 64);
             temp = (color & 0x001F) * 255 + 16;
-            byte b = (byte)((temp / 32 + temp) / 32);
-
-            return new byte[3] { r, g, b };
+            buffer[2] = (byte)((temp / 32 + temp) / 32);
         }
 
-        private static byte[] Convert8BitTo4Bit(byte value)
+        private static byte[] Convert8BitTo4Bit(byte[] buffer, byte value)
         {
             byte low = (byte)(value & 0x0F);
             byte high = (byte)(value & 0xF0);
 
-            byte value1 = (byte)(low | (low << 4));
-            byte value2 = (byte)(high | (high >> 4));
+            buffer[0] = (byte)(low | (low << 4));
+            buffer[1] = (byte)(high | (high >> 4));
 
-            return new byte[] { value1, value2 };
+            return buffer;
         }
 
-        private static byte[] GetRgba(byte r, byte g, byte b)
+        private static void GetRgba(byte[] buffer, byte r, byte g, byte b)
         {
-            return new byte[4] { r, g, b, 255 };
+			buffer[0] = r;
+			buffer[1] = g;
+			buffer[2] = b;
+			buffer[3] = 255;
         }
 
-        private static byte[] GetRgba(byte r, byte g, byte b, byte a)
+        private static void GetRgba(byte[] buffer, byte r, byte g, byte b, byte a)
         {
-            return new byte[4] { r, g, b, a };
+            buffer[0] = r;
+			buffer[1] = g;
+			buffer[2] = b;
+			buffer[3] = a;
         }
 	}
 }

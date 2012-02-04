@@ -38,19 +38,37 @@ namespace Microsoft.Xna.Framework.Graphics
 		}
 		public void Set ( float x, float y, float dx, float dy, float w, float h, float sin, float cos, Color color, Vector2 texCoordTL, Vector2 texCoordBR )
 		{
-			vertexTL.Position = new Vector2(x+dx*cos-dy*sin,y+dx*sin+dy*cos);
+			float dxcos = dx * cos;
+			float dxsin = dx * sin;
+			
+			float dysin = dy * sin;
+			float dycos = dy * cos;
+			
+			float dxwcos = (dx + w) * cos;
+			float dxwsin = (dx + w) * sin;
+			
+			float dyhsin = (dy + h) * sin;
+			float dyhcos = (dy + h) * cos;
+				
+			vertexTL.Position.X = x + dxcos - dysin;
+			vertexTL.Position.Y = y + dxsin + dycos;
 			vertexTL.Color = color.GLPackedValue;
 			vertexTL.TextureCoordinate = texCoordTL;
 
-			vertexTR.Position = new Vector2(x+(dx+w)*cos-dy*sin,y+(dx+w)*sin+dy*cos);
+			vertexTR.Position.X = x + dxwcos - dysin;
+			vertexTR.Position.Y = y + dxwsin + dycos;
 			vertexTR.Color = color.GLPackedValue;
-			vertexTR.TextureCoordinate = new Vector2(texCoordBR.X,texCoordTL.Y);
+			vertexTR.TextureCoordinate.X = texCoordBR.X;
+			vertexTR.TextureCoordinate.Y = texCoordTL.Y;
 
-			vertexBL.Position = new Vector2(x+dx*cos-(dy+h)*sin,y+dx*sin+(dy+h)*cos);
+			vertexBL.Position.X = x + dxcos - dyhsin;
+			vertexBL.Position.Y = y + dxsin + dyhcos;
 			vertexBL.Color = color.GLPackedValue;
-			vertexBL.TextureCoordinate = new Vector2(texCoordTL.X,texCoordBR.Y);
+			vertexBL.TextureCoordinate.X = texCoordTL.X;
+			vertexBL.TextureCoordinate.Y = texCoordBR.Y;
 
-			vertexBR.Position = new Vector2(x+(dx+w)*cos-(dy+h)*sin,y+(dx+w)*sin+(dy+h)*cos);
+			vertexBR.Position.X = x + dxwcos - dyhsin;
+			vertexBR.Position.Y = y + dxwsin + dyhcos;
 			vertexBR.Color = color.GLPackedValue;
 			vertexBR.TextureCoordinate = texCoordBR;
 		}
