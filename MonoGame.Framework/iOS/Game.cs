@@ -85,8 +85,13 @@ namespace Microsoft.Xna.Framework
 		private Texture2D splashScreen;
 		
 		delegate void InitialiseGameComponentsDelegate();
+
+		public Game() 
+			: this(UIScreen.MainScreen.Scale)
+		{
+		}
 		
-		public Game()
+		public Game(float scale)
         {           
 			// Initialize collections
 			_services = new GameServiceContainer();
@@ -94,8 +99,10 @@ namespace Microsoft.Xna.Framework
 			_gameComponentCollection.ComponentAdded += Handle_gameComponentCollectionComponentAdded;
 
 			//Create a full-screen window
-			_mainWindow = new UIWindow (UIScreen.MainScreen.Bounds);			
-			_view = new GameWindow();
+			_mainWindow = new UIWindow (UIScreen.MainScreen.Bounds);	
+			_mainWindow.ContentScaleFactor = scale;
+
+			_view = new GameWindow(scale);
 			GameWindow.game = this;			
 			_mainWindow.Add(_view);							
 					

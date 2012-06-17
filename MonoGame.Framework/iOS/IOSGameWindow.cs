@@ -100,16 +100,20 @@ namespace Microsoft.Xna.Framework
 	    public EAGLContext BackgroundContext;
 	    public EAGLSharegroup ShareGroup; 
 				
+		private float screenScale;
+
 		#region UIVIew Methods
 
-		public GameWindow() : base (UIScreen.MainScreen.Bounds)
+		public GameWindow(float scale) : base (UIScreen.MainScreen.Bounds)
 		{
+			screenScale = scale;
+
 			LayerRetainsBacking = false; 
 			LayerColorFormat	= EAGLColorFormat.RGBA8;
-			ContentScaleFactor  = UIScreen.MainScreen.Scale;
+			ContentScaleFactor  = screenScale;
 			
 			RectangleF rect = UIScreen.MainScreen.Bounds;
-			clientBounds = new Rectangle(0,0,(int) (rect.Width * UIScreen.MainScreen.Scale),(int) (rect.Height * UIScreen.MainScreen.Scale));
+			clientBounds = new Rectangle(0,0,(int) (rect.Width * screenScale),(int) (rect.Height * screenScale));
 			
 			// Enable multi-touch
 			MultipleTouchEnabled = true;	
@@ -141,8 +145,8 @@ namespace Microsoft.Xna.Framework
 			// Scale OpenGL layer to the scale of the main layer
 			// On iPhone 4 this makes the renderbuffer size the same as actual device resolution
 			// On iPad with user-selected scale of 2x at startup, this will trigger but has no effect on the renderbuffer
-			if(UIScreen.MainScreen.Scale != 1)
-				eaglLayer.ContentsScale = UIScreen.MainScreen.Scale;
+			if(screenScale != 1)
+				eaglLayer.ContentsScale = screenScale;
 		}
 		
 		int renderbufferWidth;
@@ -495,7 +499,7 @@ namespace Microsoft.Xna.Framework
 		
 		internal Vector2 GetOffsetPosition(Vector2 position, bool useScale)
 		{
-			Vector2 translatedPosition = position * UIScreen.MainScreen.Scale;
+			Vector2 translatedPosition = position * screenScale;
 
 			switch (CurrentOrientation)
 			{
@@ -523,7 +527,7 @@ namespace Microsoft.Xna.Framework
 				}
 			}
 			if(!useScale)
-				translatedPosition = translatedPosition / UIScreen.MainScreen.Scale;
+				translatedPosition = translatedPosition / screenScale;
 			return translatedPosition;
 		}
 		
