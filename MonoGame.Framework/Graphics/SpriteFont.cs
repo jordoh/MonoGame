@@ -83,7 +83,7 @@ namespace Microsoft.Xna.Framework.Graphics {
 		private static Typesetter PerThreadTypesetter;
 
 		private Dictionary<char, Glyph> _glyphs;
-		private Texture2D _texture;
+		public Texture2D _texture;
 
 		internal SpriteFont (
 			Texture2D texture, List<Rectangle> glyphBounds, List<Rectangle> cropping, List<char> characters,
@@ -300,7 +300,7 @@ namespace Microsoft.Xna.Framework.Graphics {
 			}
 		}
 
-		struct Glyph {
+		public struct Glyph {
 			public char Character;
 			public Rectangle BoundsInTexture;
 			public Rectangle Cropping;
