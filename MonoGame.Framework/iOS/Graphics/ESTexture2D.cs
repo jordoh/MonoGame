@@ -54,6 +54,7 @@ namespace Microsoft.Xna.Framework.Graphics
 {
 	internal class ESTexture2D : IDisposable
 	{
+        private static Nullable<bool> _supportsNPOTTextures;
 		private uint _name;
 		private Size _size;
 		private int _width,_height;
@@ -76,53 +77,58 @@ namespace Microsoft.Xna.Framework.Graphics
 		}
 		
 		private void InitWithCGImage(CGImage image, All filter)
-		{
-			int	width,height,i;
-	        CGContext context = null;
-	        IntPtr data;
-	        CGColorSpace colorSpace;
-	        IntPtr tempData;
-	        bool hasAlpha;
-	        CGImageAlphaInfo info;
-	        CGAffineTransform transform;
-	        Size imageSize;
-	        SurfaceFormat pixelFormat;
-	        bool sizeToFit = false;
+        {
+            int width, height, i;
+            CGContext context = null;
+            IntPtr data;
+            CGColorSpace colorSpace;
+            IntPtr tempData;
+            bool hasAlpha;
+            CGImageAlphaInfo info;
+            CGAffineTransform transform;
+            Size imageSize;
+            SurfaceFormat pixelFormat;
+            bool sizeToFit = false;
 			
-			if(image == null) 
-			{
-				throw new ArgumentException(" uimage is invalid! " );
-			}
+            if (image == null)
+            {
+                throw new ArgumentException(" uimage is invalid! ");
+            }
 			
-			info = image.AlphaInfo;
-			hasAlpha = ((info == CGImageAlphaInfo.PremultipliedLast) || (info == CGImageAlphaInfo.PremultipliedFirst) || (info == CGImageAlphaInfo.Last) || (info == CGImageAlphaInfo.First) ? true : false);
+            info = image.AlphaInfo;
+            hasAlpha = ((info == CGImageAlphaInfo.PremultipliedLast) || (info == CGImageAlphaInfo.PremultipliedFirst) || (info == CGImageAlphaInfo.Last) || (info == CGImageAlphaInfo.First) ? true : false);
 			
-			if (image.ColorSpace != null)
-			{
-				pixelFormat = SurfaceFormat.Color;
-			}
-			else 
-			{	
-				pixelFormat = SurfaceFormat.Alpha8;
-			}
+            if (image.ColorSpace != null)
+            {
+                pixelFormat = SurfaceFormat.Color;
+            } else
+            {	
+                pixelFormat = SurfaceFormat.Alpha8;
+            }
 	
-			imageSize = new Size(image.Width,image.Height);
-			transform = CGAffineTransform.MakeIdentity();
-			width = imageSize.Width;
+            imageSize = new Size(image.Width, image.Height);
+            transform = CGAffineTransform.MakeIdentity();
+            width = imageSize.Width;
+            height = imageSize.Height;
 	
-			if((width != 1) && ((width & (width - 1))!=0)) {
-				i = 1;
-				while((sizeToFit ? 2 * i : i) < width)
-					i *= 2;
-				width = i;
-			}
-			height = imageSize.Height;
-			if((height != 1) && ((height & (height - 1))!=0)) {
-				i = 1;
-				while((sizeToFit ? 2 * i : i) < height)
-					i *= 2;
-				height = i;
-			}
+            if (!SupportsNPOTTextures())
+            {
+                if ((width != 1) && ((width & (width - 1)) != 0))
+                {
+                    i = 1;
+                    while ((sizeToFit ? 2 * i : i) < width)
+                        i *= 2;
+                    width = i;
+                }
+
+                if ((height != 1) && ((height & (height - 1)) != 0))
+                {
+                    i = 1;
+                    while ((sizeToFit ? 2 * i : i) < height)
+                        i *= 2;
+                    height = i;
+                }
+            }
 			// TODO: kMaxTextureSize = 1024
 			while((width > 1024) || (height > 1024)) 
 			{
@@ -195,6 +201,19 @@ namespace Microsoft.Xna.Framework.Graphics
 	 			GL.DeleteTextures(1, ref _name);
 			}
 		}
+
+        private static bool SupportsNPOTTextures()
+        {
+            if (!_supportsNPOTTextures.HasValue)
+            {
+                // All OpenGL ES 2.0 implementations support NPOT
+                // OpenGL ES 1.1 only supports NPOT if the extension is present
+                _supportsNPOTTextures = GL.GetString(All.Version).Contains("2.0") || 
+                    GL.GetString(All.Extensions).Contains("GL_APPLE_texture_2D_limited_npot");
+            }
+
+            return _supportsNPOTTextures.Value;
+        }
 		
 		private static byte GetBits64(ulong source, int first, int length, int shift)
         {
