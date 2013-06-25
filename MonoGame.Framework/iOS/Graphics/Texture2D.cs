@@ -323,7 +323,12 @@ namespace Microsoft.Xna.Framework.Graphics
 		
 		private byte[] GetImageData(int level)
 		{
-			
+            int originalFramebufferId = -1;
+            GL.GetInteger(All.FramebufferBindingOes, ref originalFramebufferId);
+
+            int originalRenderbufferId = -1;
+            GL.GetInteger(All.RenderbufferBindingOes, ref originalRenderbufferId);
+
 			int framebufferId = -1;
 			int renderBufferID = -1;
 			
@@ -388,8 +393,10 @@ namespace Microsoft.Xna.Framework.Graphics
 			GL.Oes.DeleteRenderbuffers(1,ref renderBufferID);
 			// delete the FBO
 			GL.Oes.DeleteFramebuffers(1, ref framebufferId);
+
 			// Set the frame buffer back to the system window buffer
-			GL.Oes.BindFramebuffer(All.FramebufferOes, 0);			
+            GL.Oes.BindFramebuffer(All.FramebufferOes, originalFramebufferId);			
+            GL.Oes.BindRenderbuffer(All.RenderbufferOes, originalRenderbufferId);
 
 			return imageInfo;
 					
