@@ -28,6 +28,8 @@ namespace Microsoft.Xna.Framework.Audio
 	{
 		public static ExtAudioFile GetExtAudioFile (NSUrl url, out AudioStreamBasicDescription audioDescription)
 		{
+
+
 			// Notice the following line that we can not pass a NSUrl to a CFUrl
 			//ExtAudioFile ext = ExtAudioFile.OpenUrl(url);
 
@@ -50,6 +52,7 @@ namespace Microsoft.Xna.Framework.Audio
 #if DEBUG				
 				Console.WriteLine ("Unsupported Format: Channel count [0] is greater than stereo.", fileFormat.ChannelsPerFrame);
 #endif
+				audioDescription = new AudioStreamBasicDescription ();
 				return null;
 			}
 

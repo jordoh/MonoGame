@@ -321,7 +321,6 @@ namespace Microsoft.Xna.Framework {
 			}
 		}
 
-		[Export]
 		public void OnLongPressGesture (UILongPressGestureRecognizer sender)
 		{
 			// FIXME: Determine the appropriate action to take here.  The XNA
@@ -342,7 +341,6 @@ namespace Microsoft.Xna.Framework {
 
 		private Vector2? _previousPanPosition;
 
-		[Export]
 		public void OnPanGesture (UIPanGestureRecognizer sender)
 		{
 			var location = sender.LocationInView (sender.View);
@@ -370,7 +368,6 @@ namespace Microsoft.Xna.Framework {
 
 		private readonly Vector2? [] _previousPinchPositions = new Vector2?[2];
 
-		[Export]
 		public void OnPinchGesture (UIPinchGestureRecognizer sender)
 		{
 			var location0 = sender.LocationOfTouch (0, sender.View);
@@ -405,7 +402,6 @@ namespace Microsoft.Xna.Framework {
 			}
 		}
 
-		[Export]
 		public void OnRotationGesture (UIRotationGestureRecognizer sender)
 		{
 			var location0 = sender.LocationOfTouch (0, sender.View);
@@ -420,7 +416,6 @@ namespace Microsoft.Xna.Framework {
 				Vector2.Zero, Vector2.Zero));
 		}
 
-		[Export]
 		public void OnSwipeGesture (UISwipeGestureRecognizer sender)
 		{
 			// FIXME: It may not be possible to use
@@ -436,7 +431,6 @@ namespace Microsoft.Xna.Framework {
 				delta, Vector2.Zero));
 		}
 
-		[Export]
 		public void OnTapGesture (UITapGestureRecognizer sender)
 		{
 			var location = sender.LocationInView (sender.View);
@@ -447,7 +441,6 @@ namespace Microsoft.Xna.Framework {
 				Vector2.Zero, Vector2.Zero));
 		}
 
-		[Export]
 		public void OnDoubleTapGesture (UITapGestureRecognizer sender)
 		{
 			var location = sender.LocationInView (sender.View);
