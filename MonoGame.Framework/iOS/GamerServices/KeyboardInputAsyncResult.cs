@@ -69,9 +69,9 @@ non-infringement.
 using System;
 using System.Threading;
 
-using MonoTouch.CoreFoundation;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreFoundation;
+using Foundation;
+using UIKit;
 
 namespace Microsoft.Xna.Framework {
 	class KeyboardInputAsyncResult : IAsyncResult {

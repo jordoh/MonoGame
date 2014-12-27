@@ -39,9 +39,9 @@
 // #endregion License
 // 
 using System;
-using MonoTouch.UIKit;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
+using UIKit;
+using CoreGraphics;
+using Foundation;
 using System.IO;
 using System.Drawing;
 using System.Collections.Generic;

@@ -41,7 +41,7 @@ purpose and non-infringement.
 using System;
 
 #if IPHONE
-using MonoTouch.AudioToolbox;
+using AudioToolbox;
 #endif
 
 using Microsoft.Xna.Framework.Audio;

@@ -41,9 +41,9 @@ purpose and non-infringement.
 #region Statement
 ﻿using System;
 
-using MonoTouch.Foundation;
-using MonoTouch.GameKit;
-using MonoTouch.UIKit;
+using Foundation;
+using GameKit;
+using UIKit;
 
 #endregion Statement
 

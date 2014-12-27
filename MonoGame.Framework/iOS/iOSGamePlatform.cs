@@ -70,9 +70,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-using MonoTouch.Foundation;
-using MonoTouch.OpenGLES;
-using MonoTouch.UIKit;
+using Foundation;
+using OpenGLES;
+using UIKit;
 
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;

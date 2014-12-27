@@ -69,8 +69,8 @@ non-infringement.
 using System;
 using System.Drawing;
 
-using MonoTouch.UIKit;
-using MonoTouch.Foundation;
+using UIKit;
+using Foundation;
 
 namespace Microsoft.Xna.Framework {
 	class iOSGameViewController : UIViewController {

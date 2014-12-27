@@ -73,9 +73,9 @@ using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Threading;
 
-using MonoTouch.Foundation;
-using MonoTouch.GameKit;
-using MonoTouch.UIKit;
+using Foundation;
+using GameKit;
+using UIKit;
 
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;

@@ -43,7 +43,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 #if IPHONE
-using MonoTouch.OpenGLES;
+using OpenGLES;
 #endif
 #if ANDROID
 using Android.Opengl;

@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 #if IPHONE
 using OpenTK.Audio.OpenAL;
 using OpenTK;
-using MonoTouch.AudioToolbox;
+using AudioToolbox;
 #elif MONOMAC
 using MonoMac.OpenAL;
 #endif

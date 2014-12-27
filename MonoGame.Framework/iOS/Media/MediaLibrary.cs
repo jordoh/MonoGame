@@ -41,7 +41,7 @@
 using System;
 using System.Collections.Generic;
 
-using MonoTouch.MediaPlayer;
+using MediaPlayer;
 
 namespace Microsoft.Xna.Framework.Media
 {

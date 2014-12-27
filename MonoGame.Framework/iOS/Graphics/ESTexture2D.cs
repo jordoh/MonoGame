@@ -43,9 +43,9 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.IO;
 
-using MonoTouch.UIKit;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
+using UIKit;
+using CoreGraphics;
+using Foundation;
 
 using OpenTK.Graphics.ES11;
 

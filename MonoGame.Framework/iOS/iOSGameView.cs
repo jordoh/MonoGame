@@ -69,11 +69,11 @@ non-infringement.
 using System;
 using System.Drawing;
 
-using MonoTouch.CoreAnimation;
-using MonoTouch.Foundation;
-using MonoTouch.ObjCRuntime;
-using MonoTouch.OpenGLES;
-using MonoTouch.UIKit;
+using CoreAnimation;
+using Foundation;
+using ObjCRuntime;
+using OpenGLES;
+using UIKit;
 
 using OpenTK.Graphics;
 using OpenTK.Platform.iPhoneOS;

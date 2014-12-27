@@ -48,8 +48,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
 #if IPHONE
-using MonoTouch.AudioToolbox;
-using MonoTouch.AudioUnit;
+using AudioToolbox;
+using AudioUnit;
 
 using OpenTK.Audio.OpenAL;
 #elif MONOMAC
