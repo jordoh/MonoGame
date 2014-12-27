@@ -77,7 +77,6 @@ using Foundation;
 using GameKit;
 using UIKit;
 
-using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.Input.Touch;
 

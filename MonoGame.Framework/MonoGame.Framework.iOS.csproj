@@ -92,7 +92,6 @@
     <Compile Include="Content\ContentLoadException.cs" />
     <Compile Include="GamerServices\Gamer.cs" />
     <Compile Include="GamerServices\GamerPrivileges.cs" />
-    <Compile Include="GamerServices\GamerServicesComponent.cs" />
     <Compile Include="GamerServices\SignedInGamerCollection.cs" />
     <Compile Include="Graphics\ClearOptions.cs" />
     <Compile Include="Graphics\DisplayMode.cs" />
@@ -119,8 +118,6 @@
     <Compile Include="Input\GamePadCapabilities.cs" />
     <Compile Include="Input\GamePadState.cs" />
     <Compile Include="Input\GamePadThumbSticks.cs" />
-    <Compile Include="Net\CommandGamerLeft.cs" />
-    <Compile Include="Net\CommandGamerStateChange.cs" />
     <Compile Include="Storage\StorageContainer.cs" />
     <Compile Include="Storage\StorageDevice.cs" />
     <Compile Include="BatteryChargeStatus.cs" />
@@ -182,20 +179,6 @@
     <Compile Include="Input\AccelerometerState.cs" />
     <Compile Include="GameComponentCollectionEventArgs.cs" />
     <Compile Include="GamerServices\GamerCollection.cs" />
-    <Compile Include="Net\AvailableNetworkSession.cs" />
-    <Compile Include="Net\AvailableNetworkSessionCollection.cs" />
-    <Compile Include="Net\LocalNetworkGamer.cs" />
-    <Compile Include="Net\NetworkGamer.cs" />
-    <Compile Include="Net\NetworkMachine.cs" />
-    <Compile Include="Net\NetworkSession.cs" />
-    <Compile Include="Net\NetworkSessionEndReason.cs" />
-    <Compile Include="Net\NetworkSessionProperties.cs" />
-    <Compile Include="Net\NetworkSessionState.cs" />
-    <Compile Include="Net\NetworkSessionType.cs" />
-    <Compile Include="Net\PacketReader.cs" />
-    <Compile Include="Net\PacketWriter.cs" />
-    <Compile Include="Net\QualityOfService.cs" />
-    <Compile Include="Net\SendDataOptions.cs" />
     <Compile Include="GamerServices\GamerProfile.cs" />
     <Compile Include="GamerServices\GamerZone.cs" />
     <Compile Include="GamerServices\GamerPrivilegeSetting.cs" />
@@ -204,10 +187,6 @@
     <Compile Include="Input\Keyboard.cs" />
     <Compile Include="Input\KeyState.cs" />
     <Compile Include="IUpdateable.cs" />
-    <Compile Include="Net\NetworkSessionJoinError.cs" />
-    <Compile Include="Net\NetworkSessionJoinException.cs" />
-    <Compile Include="Net\NetworkException.cs" />
-    <Compile Include="Net\NetworkNotAvailableException.cs" />
     <Compile Include="GamerServices\GamerDefaults.cs" />
     <Compile Include="GamerServices\GamerPresence.cs" />
     <Compile Include="GamerServices\GamerPresenceMode.cs" />
@@ -328,16 +307,6 @@
     <Compile Include="Audio\Cue.cs" />
     <Compile Include="Audio\SoundBank.cs" />
     <Compile Include="Audio\WaveBank.cs" />
-    <Compile Include="Net\GamerStates.cs" />
-    <Compile Include="Net\CommandReceiveData.cs" />
-    <Compile Include="Net\ICommand.cs" />
-    <Compile Include="Net\CommandEvent.cs" />
-    <Compile Include="Net\CommandSendData.cs" />
-    <Compile Include="Net\CommandSessionStateChange.cs" />
-    <Compile Include="Net\CommandGamerJoined.cs" />
-    <Compile Include="Net\CommandEventType.cs" />
-    <Compile Include="Net\MonoGamerPeer.cs" />
-    <Compile Include="Net\NetworkMessageType.cs" />
     <Compile Include="iOS\GamerServices\SignedInGamer.cs" />
     <Compile Include="iOS\Graphics\ESImage.cs" />
     <Compile Include="iOS\Graphics\ESTexture2D.cs" />
@@ -353,8 +322,6 @@
     <Compile Include="iOS\Media\VideoPlayer.cs" />
     <Compile Include="iOS\GamerServices\Guide.cs" />
     <Compile Include="iOS\GamerServices\TextFieldAlertView.cs" />
-    <Compile Include="iOS\Net\MonoGamePeerPickerControllerDelegate.cs" />
-    <Compile Include="iOS\Net\MonoGameSessionDelegate.cs" />
     <Compile Include="iOS\Content\ContentManager.cs" />
     <Compile Include="Graphics\Extender.cs" />
     <Compile Include="Audio\NoAudioHardwareException.cs" />
@@ -433,7 +400,6 @@
     <Folder Include="iOS\Input\" />
     <Folder Include="iOS\Audio\" />
     <Folder Include="iOS\Media\" />
-    <Folder Include="iOS\Net\" />
     <Folder Include="iOS\Content\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
