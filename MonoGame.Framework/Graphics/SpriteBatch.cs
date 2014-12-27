@@ -942,8 +942,8 @@ namespace Microsoft.Xna.Framework.Graphics
 			else {
 				texCoordTL.X = texture.Image.GetTextureCoordX( tempRect.X );
 				texCoordTL.Y = texture.Image.GetTextureCoordY( tempRect.Y );
-				texCoordBR.X = texture.Image.GetTextureCoordX( tempRect.X+tempRect.Width );
-				texCoordBR.Y = texture.Image.GetTextureCoordY( tempRect.Y+tempRect.Height );
+				texCoordBR.X = texture.Image.GetTextureCoordX( tempRect.X+tempRect.Width - 1 );
+				texCoordBR.Y = texture.Image.GetTextureCoordY( tempRect.Y+tempRect.Height - 1 );
 			}
 			
 			item.Set 

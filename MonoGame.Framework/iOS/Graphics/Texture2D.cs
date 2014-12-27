@@ -628,7 +628,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
 			CGImageAlphaInfo alphaInfo = (CGImageAlphaInfo)((int)CGImageAlphaInfo.PremultipliedLast | (int)CGBitmapFlags.ByteOrderDefault);
 
-			CGBitmapContext bitmap;
+			CGBitmapContext bitmap = null;
 			byte[] mData = GetImageData(0);
 			
 			try 

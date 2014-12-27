@@ -50,6 +50,7 @@ namespace Microsoft.Xna.Framework.Audio
 #if DEBUG				
 				Console.WriteLine ("Unsupported Format: Channel count [0] is greater than stereo.", fileFormat.ChannelsPerFrame);
 #endif
+                audioDescription = new AudioStreamBasicDescription (); // returning an empty AudioStreamBasicDescription because the out variable must be assigned
 				return null;
 			}
 

@@ -180,6 +180,8 @@ namespace Microsoft.Xna.Framework {
 				_glapi = new Gles11Api ();
 			}
 
+            _platform.Game.Services.AddService(typeof(GraphicsContext), _graphicsContext);
+
 			_graphicsContext.MakeCurrent (null);
 			// Should not be required any more _graphicsContext.LoadAll ();
 

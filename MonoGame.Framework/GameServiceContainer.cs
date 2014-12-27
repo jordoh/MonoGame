@@ -41,6 +41,8 @@ namespace Microsoft.Xna.Framework
 
         public void AddService(Type type, object provider)
         {
+            if (services.ContainsKey(type))
+                return;
             services.Add(type, provider);
         }
 
