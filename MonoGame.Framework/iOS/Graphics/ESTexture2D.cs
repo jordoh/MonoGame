@@ -106,7 +106,7 @@ namespace Microsoft.Xna.Framework.Graphics
                 pixelFormat = SurfaceFormat.Alpha8;
             }
 	
-            imageSize = new Size(image.Width, image.Height);
+            imageSize = new Size((int)image.Width, (int)image.Height);
             transform = CGAffineTransform.MakeIdentity();
             width = imageSize.Width;
             height = imageSize.Height;
@@ -342,7 +342,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
 		public void InitWithData(IntPtr data, SurfaceFormat pixelFormat, int width, int height, Size size, All filter)
 		{		
-			GL.GenTextures(1,ref _name);
+			GL.GenTextures(1,out _name);
 			GL.BindTexture(All.Texture2D, _name);
 			GL.TexParameter(All.Texture2D, All.TextureMinFilter, (int) filter);
 			GL.TexParameter(All.Texture2D, All.TextureMagFilter, (int) filter);

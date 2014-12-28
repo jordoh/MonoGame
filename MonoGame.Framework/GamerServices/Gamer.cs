@@ -44,7 +44,6 @@ namespace Microsoft.Xna.Framework.GamerServices
 {
     public abstract class Gamer
     {
-        static SignedInGamerCollection _signedInGamers = new SignedInGamerCollection();
         string _gamer = "MonoGame";
         bool _isDisposed;
         Object _tag;
@@ -126,14 +125,6 @@ namespace Microsoft.Xna.Framework.GamerServices
                 {
                     _tag = value;
                 }
-            }
-        }
-
-        public static SignedInGamerCollection SignedInGamers
-        {
-            get
-            {
-                return _signedInGamers;
             }
         }
         #endregion

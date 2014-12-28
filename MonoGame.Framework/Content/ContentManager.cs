@@ -44,9 +44,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Media;
 using Path = System.IO.Path;
 
 namespace Microsoft.Xna.Framework.Content
@@ -224,18 +222,6 @@ namespace Microsoft.Xna.Framework.Content
             {
                 assetName = Effect.Normalize(assetName);
             }
-            else if ((typeof(T) == typeof(Song)))
-            {
-                assetName = SongReader.Normalize(assetName);
-            }
-            else if ((typeof(T) == typeof(SoundEffect)))
-            {
-                assetName = SoundEffectReader.Normalize(assetName);
-            }
-            else if ((typeof(T) == typeof(Video)))
-            {
-                assetName = Video.Normalize(assetName);
-            }
 
             if (string.IsNullOrEmpty(assetName))
             {
@@ -385,18 +371,6 @@ namespace Microsoft.Xna.Framework.Content
                     //result = new SpriteFont(Texture2D.FromFile(graphicsDeviceService.GraphicsDevice,assetName), null, null, null, 0, 0.0f, null, null);
                     throw new NotImplementedException();
                 }
-                else if ((typeof(T) == typeof(Song)))
-                {
-                    result = new Song(assetName);
-                }
-                else if ((typeof(T) == typeof(SoundEffect)))
-                {
-                    result = new SoundEffect(assetName);
-                }
-                else if ((typeof(T) == typeof(Video)))
-                {
-                    result = new Video(assetName);
-                }
                 else if ((typeof(T) == typeof(Effect)))
                 {
                     result = new Effect(graphicsDeviceService.GraphicsDevice, assetName);
@@ -462,18 +436,6 @@ namespace Microsoft.Xna.Framework.Content
             {
                 assetName = Effect.Normalize(assetName);
             }
-            else if ((currentAsset is Song))
-            {
-                assetName = SongReader.Normalize(assetName);
-            }
-            else if ((currentAsset is SoundEffect))
-            {
-                assetName = SoundEffectReader.Normalize(assetName);
-            }
-            else if ((currentAsset is Video))
-            {
-                assetName = Video.Normalize(assetName);
-            }
 
             if (string.IsNullOrEmpty(assetName))
             {
@@ -497,15 +459,6 @@ namespace Microsoft.Xna.Framework.Content
                     }
                 }
                 else if ((currentAsset is SpriteFont))
-                {
-                }
-                else if ((currentAsset is Song))
-                {
-                }
-                else if ((currentAsset is SoundEffect))
-                {
-                }
-                else if ((currentAsset is Video))
                 {
                 }
                 else if ((currentAsset is Effect))

@@ -92,7 +92,6 @@
     <Compile Include="Content\ContentLoadException.cs" />
     <Compile Include="GamerServices\Gamer.cs" />
     <Compile Include="GamerServices\GamerPrivileges.cs" />
-    <Compile Include="GamerServices\SignedInGamerCollection.cs" />
     <Compile Include="Graphics\ClearOptions.cs" />
     <Compile Include="Graphics\DisplayMode.cs" />
     <Compile Include="Graphics\DisplayModeCollection.cs" />
@@ -150,12 +149,6 @@
     <Compile Include="Input\ThumbStickDefinition.cs" />
     <Compile Include="Input\Mouse.cs" />
     <Compile Include="Input\MouseState.cs" />
-    <Compile Include="Audio\AudioChannels.cs" />
-    <Compile Include="Audio\SoundState.cs" />
-    <Compile Include="Media\MediaPlayer.cs" />
-    <Compile Include="Media\MediaQueue.cs" />
-    <Compile Include="Media\MediaState.cs" />
-    <Compile Include="Media\Song.cs" />
     <Compile Include="Content\ContentReader.cs" />
     <Compile Include="Content\ContentTypeReader.cs" />
     <Compile Include="Content\ContentTypeReaderManager.cs" />
@@ -167,12 +160,9 @@
     <Compile Include="Content\ContentReaders\Texture2DReader.cs" />
     <Compile Include="Content\ContentReaders\Vector3Reader.cs" />
     <Compile Include="Content\ContentReaders\SongReader.cs" />
-    <Compile Include="Content\ContentReaders\SoundEffectReader.cs" />
     <Compile Include="Content\ContentReaders\PlaneReader.cs" />
     <Compile Include="Content\ContentReaders\QuaternionReader.cs" />
     <Compile Include="Content\ContentReaders\Vector4Reader.cs" />
-    <Compile Include="Media\MediaSourceType.cs" />
-    <Compile Include="Media\Playlist.cs" />
     <Compile Include="ReusableItemList.cs" />
     <Compile Include="PerformanceCounter.cs" />
     <Compile Include="Input\AccelerometerCapabilities.cs" />
@@ -197,8 +187,6 @@
     <Compile Include="Input\GamePadTriggers.cs" />
     <Compile Include="Graphics\CompilerOptions.cs" />
     <Compile Include="Graphics\RenderState.cs" />
-    <Compile Include="Audio\AudioListener.cs" />
-    <Compile Include="Audio\AudioEmitter.cs" />
     <Compile Include="DisplayOrientation.cs" />
     <Compile Include="GamerServices\Achievement.cs" />
     <Compile Include="GamerServices\AchievementCollection.cs" />
@@ -256,12 +244,9 @@
     <Compile Include="BoundingSphere.cs" />
     <Compile Include="ContainmentType.cs" />
     <Compile Include="BoundingBox.cs" />
-    <Compile Include="Media\PlaylistCollection.cs" />
-    <Compile Include="Media\SongCollection.cs" />
     <Compile Include="Graphics\Texture.cs" />
     <Compile Include="Content\ContentSerializerIgnoreAttribute.cs" />
     <Compile Include="Content\ContentSerializerAttribute.cs" />
-    <Compile Include="Audio\InstancePlayLimitException.cs" />
     <Compile Include="Graphics\TextureCollection.cs" />
     <Compile Include="Graphics\States\Blend.cs" />
     <Compile Include="Graphics\States\BlendFunction.cs" />
@@ -302,12 +287,6 @@
     <Compile Include="Graphics\SamplerStateCollection.cs" />
     <Compile Include="Graphics\Effect\EffectParameterClass.cs" />
     <Compile Include="Graphics\Effect\EffectParameterType.cs" />
-    <Compile Include="Audio\AudioEngine.cs" />
-    <Compile Include="Audio\AudioStopOptions.cs" />
-    <Compile Include="Audio\Cue.cs" />
-    <Compile Include="Audio\SoundBank.cs" />
-    <Compile Include="Audio\WaveBank.cs" />
-    <Compile Include="iOS\GamerServices\SignedInGamer.cs" />
     <Compile Include="iOS\Graphics\ESImage.cs" />
     <Compile Include="iOS\Graphics\ESTexture2D.cs" />
     <Compile Include="iOS\Graphics\GraphicsAdapter.cs" />
@@ -315,16 +294,8 @@
     <Compile Include="iOS\Graphics\Texture2D.cs" />
     <Compile Include="iOS\Input\GamePad.cs" />
     <Compile Include="iOS\PowerStatus.cs" />
-    <Compile Include="iOS\Media\MediaSource.cs" />
-    <Compile Include="iOS\Media\MediaLibrary.cs" />
     <Compile Include="iOS\Input\Accelerometer.cs" />
-    <Compile Include="iOS\Media\Video.cs" />
-    <Compile Include="iOS\Media\VideoPlayer.cs" />
-    <Compile Include="iOS\GamerServices\Guide.cs" />
-    <Compile Include="iOS\GamerServices\TextFieldAlertView.cs" />
     <Compile Include="iOS\Content\ContentManager.cs" />
-    <Compile Include="Graphics\Extender.cs" />
-    <Compile Include="Audio\NoAudioHardwareException.cs" />
     <Compile Include="Storage\StorageDeviceHelper.cs" />
     <Compile Include="Content\ContentManager.cs" />
     <Compile Include="Content\LzxDecoder.cs" />
@@ -336,28 +307,11 @@
     <Compile Include="Content\ContentReaders\TimeSpanReader.cs" />
     <Compile Include="Content\ContentReaders\PointReader.cs" />
     <Compile Include="Graphics\Vertices\VertexElementColor.cs" />
-    <Compile Include="Audio\XactClip.cs" />
-    <Compile Include="Audio\XactSound.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GamePlatform.cs" />
     <Compile Include="iOS\iOSGamePlatform.cs" />
     <Compile Include="iOS\iOSGameViewController.cs" />
     <Compile Include="iOS\OrientationConverter.cs" />
-    <Compile Include="MacOS\Audio\OALSoundBuffer.cs">
-      <Link>iOS\Audio\OALSoundBuffer.cs</Link>
-    </Compile>
-    <Compile Include="MacOS\Audio\OpenALSoundController.cs">
-      <Link>iOS\Audio\OpenALSoundController.cs</Link>
-    </Compile>
-    <Compile Include="MacOS\Audio\OpenALSupport.cs">
-      <Link>iOS\Audio\OpenALSupport.cs</Link>
-    </Compile>
-    <Compile Include="MacOS\Audio\SoundEffect.cs">
-      <Link>iOS\Audio\SoundEffect.cs</Link>
-    </Compile>
-    <Compile Include="MacOS\Audio\SoundEffectInstance.cs">
-      <Link>iOS\Audio\SoundEffectInstance.cs</Link>
-    </Compile>
     <Compile Include="Graphics\Vertices\IndexElementSize.cs" />
     <Compile Include="LaunchParameters.cs" />
     <Compile Include="Content\ContentReaders\AlphaTestEffectReader.cs" />
@@ -379,9 +333,6 @@
     <Compile Include="Graphics\ModelBone.cs" />
     <Compile Include="Graphics\ModelMesh.cs" />
     <Compile Include="GamerServices\NotificationPosition.cs" />
-    <Compile Include="iOS\GamerServices\KeyboardInputViewController.cs" />
-    <Compile Include="iOS\GamerServices\KeyboardInputView.cs" />
-    <Compile Include="iOS\GamerServices\KeyboardInputAsyncResult.cs" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
@@ -395,11 +346,8 @@
   <ItemGroup>
     <Folder Include="Content\ContentReaders\" />
     <Folder Include="Graphics\" />
-    <Folder Include="iOS\GamerServices\" />
     <Folder Include="iOS\Graphics\" />
     <Folder Include="iOS\Input\" />
-    <Folder Include="iOS\Audio\" />
-    <Folder Include="iOS\Media\" />
     <Folder Include="iOS\Content\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

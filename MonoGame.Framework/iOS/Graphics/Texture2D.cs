@@ -121,7 +121,7 @@ namespace Microsoft.Xna.Framework.Graphics
 			this._mipmap = mipMap;
 				
 			
-			if(GraphicsDevice.OpenGLESVersion == MonoTouch.OpenGLES.EAGLRenderingAPI.OpenGLES2)
+			if(GraphicsDevice.OpenGLESVersion == OpenGLES.EAGLRenderingAPI.OpenGLES2)
 			{
 				this._width = width;
 				this._height = height;
@@ -150,7 +150,7 @@ namespace Microsoft.Xna.Framework.Graphics
 			// modeled after this
 			// http://steinsoft.net/index.php?site=Programming/Code%20Snippets/OpenGL/no9
 			
-			GL.GenTextures(1,ref _textureId);
+			GL.GenTextures(1,out _textureId);
 			GL.BindTexture(All.Texture2D, _textureId);
 			
 			if (_mipmap)
@@ -235,7 +235,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
         public static Texture2D FromFile(GraphicsDevice graphicsDevice, Stream textureStream)
         {
-            MonoTouch.Foundation.NSData nsData = MonoTouch.Foundation.NSData.FromStream(textureStream);
+            Foundation.NSData nsData = Foundation.NSData.FromStream(textureStream);
 
 			UIImage image = UIImage.LoadFromData(nsData);
 			
@@ -259,24 +259,18 @@ namespace Microsoft.Xna.Framework.Graphics
         {
 			UIImage image;
 
-			if (filename.Contains(".pdf"))
+			// If we are loading graphics from the Content folder then we can take advantage of the FromBundle methods ability
+			// to automatically cope with @2x graphics for high resolution devices.  If we are loading from somewhere else (e.g.
+			// the documents folder for our app) then FromBundle will not work and so we must call FromFile.
+			if (filename.StartsWith("Content/", StringComparison.OrdinalIgnoreCase) == true) 
 			{
-				image = Extender.FromPdf(filename,width,height);
-			} 
-			else
-			{
-				// If we are loading graphics from the Content folder then we can take advantage of the FromBundle methods ability
-				// to automatically cope with @2x graphics for high resolution devices.  If we are loading from somewhere else (e.g.
-				// the documents folder for our app) then FromBundle will not work and so we must call FromFile.
-				if (filename.StartsWith("Content/", StringComparison.OrdinalIgnoreCase) == true) 
-				{
-					image = UIImage.FromBundle(filename);
-				}
-				else 
-				{
-					image = UIImage.FromFile(filename);
-				}
+				image = UIImage.FromBundle(filename);
 			}
+			else 
+			{
+				image = UIImage.FromFile(filename);
+			}
+		
 			
 			if (image == null)
 			{
@@ -324,20 +318,20 @@ namespace Microsoft.Xna.Framework.Graphics
 		private byte[] GetImageData(int level)
 		{
             int originalFramebufferId = -1;
-            GL.GetInteger(All.FramebufferBindingOes, ref originalFramebufferId);
+            GL.GetInteger(All.FramebufferBindingOes, out originalFramebufferId);
 
             int originalRenderbufferId = -1;
-            GL.GetInteger(All.RenderbufferBindingOes, ref originalRenderbufferId);
+            GL.GetInteger(All.RenderbufferBindingOes, out originalRenderbufferId);
 
 			int framebufferId = -1;
 			int renderBufferID = -1;
 			
 			// create framebuffer
-			GL.Oes.GenFramebuffers(1, ref framebufferId);
+			GL.Oes.GenFramebuffers(1, out framebufferId);
 			GL.Oes.BindFramebuffer(All.FramebufferOes, framebufferId);
 			
 			//renderBufferIDs = new int[currentRenderTargets];
-			GL.Oes.GenRenderbuffers(1, ref renderBufferID);
+			GL.Oes.GenRenderbuffers(1, out renderBufferID);
 			
 			// attach the texture to FBO color attachment point
 			GL.Oes.FramebufferTexture2D(All.FramebufferOes, All.ColorAttachment0Oes,
@@ -700,7 +694,7 @@ namespace Microsoft.Xna.Framework.Graphics
 			// Wrapper for NSMutableData is not supported, call new UnmanagedMemoryStream ((Byte*) mutableData.Bytes, mutableData.Length) instead
 			unsafe 
 			{
-				using (UnmanagedMemoryStream imageStream = new UnmanagedMemoryStream((byte*)data.Bytes, data.Length))
+                using (UnmanagedMemoryStream imageStream = new UnmanagedMemoryStream((byte*)data.Bytes, (long)data.Length))
 				{
 					imageStream.CopyTo(outStream);
 				}

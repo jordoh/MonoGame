@@ -270,9 +270,10 @@ namespace Microsoft.Xna.Framework {
 			//        RenderBufferStorage, but it doesn't right now.
 			//        So we call it manually.
 			//ctx.EAGLContext.RenderBufferStorage((uint)All.Renderbuffer, null);
-			var selector = new Selector("renderbufferStorage:fromDrawable:");
-			Messaging.bool_objc_msgSend_UInt32_IntPtr(
-				ctx.EAGLContext.Handle, selector.Handle, (uint)All.Renderbuffer, IntPtr.Zero);
+            ctx.EAGLContext.RenderBufferStorage((uint)All.Renderbuffer, null);
+//            var selector = new Selector("renderbufferStorage:fromDrawable:");
+//			Messaging.bool_objc_msgSend_UInt32_IntPtr(
+//				ctx.EAGLContext.Handle, selector.Handle, (uint)All.Renderbuffer, IntPtr.Zero);
 
 			_glapi.DeleteFramebuffers (1, ref _framebuffer);
 			_framebuffer = 0;

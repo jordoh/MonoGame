@@ -79,7 +79,7 @@ namespace Microsoft.Xna.Framework.Graphics
 			#else
 						
             var bufferUsage = (_bufferUsage == BufferUsage.WriteOnly) ? All11.StaticDraw : All11.DynamicDraw;
-            GL11.GenBuffers(1, ref _bufferStore);
+            GL11.GenBuffers(1, out _bufferStore);
             GL11.BindBuffer(All11.ElementArrayBuffer, _bufferStore);
             GL11.BufferData<T>(All11.ElementArrayBuffer, (IntPtr)_size, (T[])_buffer, bufferUsage);			
 
@@ -102,7 +102,7 @@ namespace Microsoft.Xna.Framework.Graphics
 			#if MONOMAC		
 			GL.GenBuffers (0, out _bufferStore);
 			#else					
-			GL11.GenBuffers(0, ref _bufferStore);
+			GL11.GenBuffers(0, out _bufferStore);
 			#endif
 						
             base.Dispose();

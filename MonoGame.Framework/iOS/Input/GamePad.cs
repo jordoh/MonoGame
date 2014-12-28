@@ -196,7 +196,7 @@
 				foreach(UITouch touch in touchesArray)
 				{
 					var point = touch.LocationInView(touch.View);
-					Vector2 location = new Vector2(point.X, point.Y);
+                    Vector2 location = new Vector2((int)point.X, (int)point.Y);
 					location = view.GetOffsetPosition(location, true);
 
 					// Check where is the touch
@@ -248,7 +248,7 @@
 				foreach(UITouch touch in touchesArray)
 				{
 					var point = touch.LocationInView(touch.View);
-					Vector2 location = new Vector2(point.X, point.Y);
+                    Vector2 location = new Vector2((int)point.X, (int)point.Y);
 					location = view.GetOffsetPosition(location, true);
 					
 					var oldItem = GetTouchesObject(touch);
@@ -357,7 +357,7 @@
 				foreach(UITouch touch in touchesArray)
 				{
 					var point = touch.LocationInView(touch.View);
-					Vector2 location = new Vector2(point.X, point.Y);
+                    Vector2 location = new Vector2((int)point.X, (int)point.Y);
 					location = view.GetOffsetPosition(location, true);
 
 					// Check where is the touch

@@ -74,7 +74,6 @@ using Foundation;
 using OpenGLES;
 using UIKit;
 
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
@@ -86,7 +85,6 @@ namespace Microsoft.Xna.Framework
         private iOSGameViewController _viewController;
         private UIWindow _mainWindow;
         private List<NSObject> _applicationObservers;
-		private OpenALSoundController soundControllerInstance = null;
         private NSTimer _runTimer;
         private bool _isExitPending;
 
@@ -94,9 +92,6 @@ namespace Microsoft.Xna.Framework
             base(game)
         {
             game.Services.AddService(typeof(iOSGamePlatform), this);
-			
-			// Setup our OpenALSoundController to handle our SoundBuffer pools
-			soundControllerInstance = OpenALSoundController.GetInstance;
 			
             Directory.SetCurrentDirectory(NSBundle.MainBundle.ResourcePath);
 
@@ -189,7 +184,7 @@ namespace Microsoft.Xna.Framework
             _runTimer = NSTimer.CreateRepeatingScheduledTimer(Game.TargetElapsedTime, Tick);
         }
 
-        private void Tick()
+        private void Tick(NSTimer timer)
         {
             if (!Game.IsActive)
                 return;
@@ -242,7 +237,6 @@ namespace Microsoft.Xna.Framework
         public override bool BeforeDraw(GameTime gameTime)
         {
 		// Update our OpenAL sound buffer pools
-		soundControllerInstance.Update();
             if (IsPlayingVideo)
                 return false;
             return true;

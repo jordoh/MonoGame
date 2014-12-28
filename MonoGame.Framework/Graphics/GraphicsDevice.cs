@@ -200,7 +200,7 @@ namespace Microsoft.Xna.Framework.Graphics
                 GL20.GenBuffers(_vbosAllocated, VboIdArrays);
 
                 var er = OpenTK.Graphics.ES20.GL.GetError();
-                if (er != OpenTK.Graphics.ES20.All.NoError)
+                if (er != OpenTK.Graphics.ES20.ErrorCode.NoError)
                 {
                     VboIdArrays = null;
                 }
@@ -707,7 +707,7 @@ namespace Microsoft.Xna.Framework.Graphics
                     // http://www.songho.ca/opengl/gl_fbo.html
 
                     // Get the currently bound frame buffer object. On most platforms this just gives 0.				
-                    GL11.GetInteger(ALL11.FramebufferBindingOes, ref originalFbo);
+                    GL11.GetInteger(ALL11.FramebufferBindingOes, out originalFbo);
 
                     frameBufferIDs = new int[currentRenderTargets.Length];
 
@@ -747,7 +747,7 @@ namespace Microsoft.Xna.Framework.Graphics
                         }
 
                         // create framebuffer
-                        GL11.Oes.GenFramebuffers(1, ref frameBufferIDs[i]);
+                        GL11.Oes.GenFramebuffers(1, out frameBufferIDs[i]);
                         GL11.Oes.BindFramebuffer(ALL11.FramebufferOes, frameBufferIDs[i]);
 
                         // attach the texture to FBO color attachment point
@@ -907,7 +907,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
                 //Create VBO if not created already
                 if (VboIdArray == 0)
-                    GL20.GenBuffers(1, ref VboIdArray);
+                    GL20.GenBuffers(1, out VboIdArray);
 
                 // Bind the VBO
                 GL20.BindBuffer(ALL20.ArrayBuffer, VboIdArray);
@@ -1018,9 +1018,9 @@ namespace Microsoft.Xna.Framework.Graphics
 
                 //Create VBO if not created already
                 if (VboIdArray == 0)
-                    GL20.GenBuffers(1, ref VboIdArray);
+                    GL20.GenBuffers(1, out VboIdArray);
                 if (VboIdElement == 0)
-                    GL20.GenBuffers(1, ref VboIdElement);
+                    GL20.GenBuffers(1, out VboIdElement);
 
                 // Bind the VBO
                 GL20.BindBuffer(ALL20.ArrayBuffer, VboIdArray);
@@ -1066,9 +1066,9 @@ namespace Microsoft.Xna.Framework.Graphics
 
                 //Create VBO if not created already
                 if (VboIdArray == 0)
-                    GL11.GenBuffers(1, ref VboIdArray);
+                    GL11.GenBuffers(1, out VboIdArray);
                 if (VboIdElement == 0)
-                    GL11.GenBuffers(1, ref VboIdElement);
+                    GL11.GenBuffers(1, out VboIdElement);
 
                 // Bind the VBO
                 GL11.BindBuffer(ALL11.ArrayBuffer, VboIdArray);
@@ -1129,9 +1129,9 @@ namespace Microsoft.Xna.Framework.Graphics
 
                 //Create VBO if not created already
                 if (VboIdArray == 0)
-                    GL20.GenBuffers(1, ref VboIdArray);
+                    GL20.GenBuffers(1, out VboIdArray);
                 if (VboIdElement == 0)
-                    GL20.GenBuffers(1, ref VboIdElement);
+                    GL20.GenBuffers(1, out VboIdElement);
 
                 // Bind the VBO
                 GL20.BindBuffer(ALL20.ArrayBuffer, VboIdArray);
@@ -1177,9 +1177,9 @@ namespace Microsoft.Xna.Framework.Graphics
 
                 //Create VBO if not created already
                 if (VboIdArray == 0)
-                    GL11.GenBuffers(1, ref VboIdArray);
+                    GL11.GenBuffers(1, out VboIdArray);
                 if (VboIdElement == 0)
-                    GL11.GenBuffers(1, ref VboIdElement);
+                    GL11.GenBuffers(1, out VboIdElement);
 
                 // Bind the VBO
                 GL11.BindBuffer(ALL11.ArrayBuffer, VboIdArray);
@@ -1240,9 +1240,9 @@ namespace Microsoft.Xna.Framework.Graphics
 
                 //Create VBO if not created already
                 if (VboIdArray == 0)
-                    GL20.GenBuffers(1, ref VboIdArray);
+                    GL20.GenBuffers(1, out VboIdArray);
                 if (VboIdElement == 0)
-                    GL20.GenBuffers(1, ref VboIdElement);
+                    GL20.GenBuffers(1, out VboIdElement);
 
                 // Bind the VBO
                 GL20.BindBuffer(ALL20.ArrayBuffer, VboIdArray);
@@ -1288,9 +1288,9 @@ namespace Microsoft.Xna.Framework.Graphics
 
                 //Create VBO if not created already
                 if (VboIdArray == 0)
-                    GL11.GenBuffers(1, ref VboIdArray);
+                    GL11.GenBuffers(1, out VboIdArray);
                 if (VboIdElement == 0)
-                    GL11.GenBuffers(1, ref VboIdElement);
+                    GL11.GenBuffers(1, out VboIdElement);
 
                 // Bind the VBO
                 GL11.BindBuffer(ALL11.ArrayBuffer, VboIdArray);

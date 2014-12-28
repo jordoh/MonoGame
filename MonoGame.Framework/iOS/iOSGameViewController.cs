@@ -92,14 +92,14 @@ namespace Microsoft.Xna.Framework {
 		{
 			RectangleF frame;
 			if (ParentViewController != null && ParentViewController.View != null) {
-				frame = new RectangleF(PointF.Empty, ParentViewController.View.Frame.Size);
+                frame = new RectangleF(0, 0, (float)ParentViewController.View.Frame.Width, (float)ParentViewController.View.Frame.Height);
 			} else {
 				UIScreen screen = UIScreen.MainScreen;
 				if (InterfaceOrientation == UIInterfaceOrientation.LandscapeLeft ||
 				    InterfaceOrientation == UIInterfaceOrientation.LandscapeRight) {
-					frame = new RectangleF(0, 0, screen.Bounds.Height, screen.Bounds.Width);
+                    frame = new RectangleF(0, 0, (float)screen.Bounds.Height,  (float)screen.Bounds.Width);
 				} else {
-					frame = new RectangleF(0, 0, screen.Bounds.Width, screen.Bounds.Height);
+                    frame = new RectangleF(0, 0,  (float)screen.Bounds.Width,  (float)screen.Bounds.Height);
 				}
 			}
 

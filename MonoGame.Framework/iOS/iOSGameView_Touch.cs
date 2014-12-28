@@ -105,7 +105,7 @@ namespace Microsoft.Xna.Framework {
 
 			var location = ((UITouch) touches.AnyObject).LocationInView (this);
 			ClearTouchBuffer ();
-			RollTouchBuffer (GetOffsetPosition (new Vector2 (location.X, location.Y), true));
+            RollTouchBuffer (GetOffsetPosition (new Vector2 ((float)location.X, (float)location.Y), true));
 		}
 
 		public override void TouchesEnded (NSSet touches, UIEvent evt)
@@ -115,7 +115,7 @@ namespace Microsoft.Xna.Framework {
 			GamePad.Instance.TouchesEnded (touches, evt, this);
 
 			var location = ((UITouch) touches.AnyObject).LocationInView (this);
-			RollTouchBuffer (GetOffsetPosition (new Vector2 (location.X, location.Y), true));
+            RollTouchBuffer (GetOffsetPosition (new Vector2 ((float)location.X, (float)location.Y), true));
 		}
 
 		public override void TouchesMoved (NSSet touches, UIEvent evt)
@@ -125,7 +125,7 @@ namespace Microsoft.Xna.Framework {
 			GamePad.Instance.TouchesMoved (touches, evt, this);
 
 			var location = ((UITouch) touches.AnyObject).LocationInView (this);
-			RollTouchBuffer (GetOffsetPosition (new Vector2 (location.X, location.Y), true));
+            RollTouchBuffer (GetOffsetPosition (new Vector2 ((float)location.X, (float)location.Y), true));
 		}
 
 		public override void TouchesCancelled (NSSet touches, UIEvent evt)
@@ -135,7 +135,7 @@ namespace Microsoft.Xna.Framework {
 			GamePad.Instance.TouchesCancelled (touches, evt);
 
 			var location = ((UITouch) touches.AnyObject).LocationInView (this);
-			RollTouchBuffer (GetOffsetPosition (new Vector2 (location.X, location.Y), true));
+            RollTouchBuffer (GetOffsetPosition (new Vector2 ((float)location.X, (float)location.Y), true));
 		}
 
 		// TODO: Review FillTouchCollection
@@ -151,7 +151,7 @@ namespace Microsoft.Xna.Framework {
 
 				//Get position touch
 				var location = touch.LocationInView (touch.View);
-				var position = GetOffsetPosition (new Vector2 (location.X, location.Y), true);
+                var position = GetOffsetPosition (new Vector2 ((float)location.X, (float)location.Y), true);
 				var id = touch.Handle.ToInt32 ();
 
 				switch (touch.Phase) {
@@ -194,7 +194,7 @@ namespace Microsoft.Xna.Framework {
 		public Vector2 GetOffsetPosition (Vector2 position, bool useScale)
 		{
 			if (useScale)
-				return position * Layer.ContentsScale;
+                return position * (float)Layer.ContentsScale;
 			return position;
 		}
 
@@ -331,7 +331,7 @@ namespace Microsoft.Xna.Framework {
 			//        state notifications (Recognized, Failed, etc)
 			if (sender.State == UIGestureRecognizerState.Began) {
 				var location = sender.LocationInView (sender.View);
-				var position = GetOffsetPosition (new Vector2 (location.X, location.Y), true);
+                var position = GetOffsetPosition (new Vector2 ((float)location.X, (float)location.Y), true);
 				TouchPanel.GestureList.Enqueue (new GestureSample (
 					GestureType.Hold, new TimeSpan (DateTime.Now.Ticks),
 					position, position,
@@ -344,7 +344,7 @@ namespace Microsoft.Xna.Framework {
 		public void OnPanGesture (UIPanGestureRecognizer sender)
 		{
 			var location = sender.LocationInView (sender.View);
-			var position = GetOffsetPosition (new Vector2 (location.X, location.Y), true);
+            var position = GetOffsetPosition (new Vector2 ((float)location.X, (float)location.Y), true);
 
 			var delta = position - _previousPanPosition.GetValueOrDefault (position);
 
@@ -371,15 +371,15 @@ namespace Microsoft.Xna.Framework {
 		public void OnPinchGesture (UIPinchGestureRecognizer sender)
 		{
 			var location0 = sender.LocationOfTouch (0, sender.View);
-			var position0 = GetOffsetPosition (new Vector2 (location0.X, location0.Y), true);
+            var position0 = GetOffsetPosition (new Vector2 ((float)location0.X, (float)location0.Y), true);
 
 			PointF location1;
 			Vector2 position1;
 			if (sender.NumberOfTouches > 1) {
-				location1 = sender.LocationOfTouch (1, sender.View);
+                location1 = new PointF((float)sender.LocationOfTouch (1, sender.View).X, (float)sender.LocationOfTouch (1, sender.View).Y);
 				position1 = GetOffsetPosition (new Vector2 (location1.X, location1.Y), true);
 			} else {
-				location1 = location0;
+                location1 = new PointF((float)location0.X, (float)location0.Y);
 				position1 = position0;
 			}
 
@@ -405,10 +405,10 @@ namespace Microsoft.Xna.Framework {
 		public void OnRotationGesture (UIRotationGestureRecognizer sender)
 		{
 			var location0 = sender.LocationOfTouch (0, sender.View);
-			var position0 = GetOffsetPosition (new Vector2(location0.X, location0.Y), true);
+            var position0 = GetOffsetPosition (new Vector2((float)location0.X, (float)location0.Y), true);
 
 			var location1 = sender.LocationOfTouch (1, sender.View);
-			var position1 = GetOffsetPosition (new Vector2(location1.X, location1.Y), true);
+            var position1 = GetOffsetPosition (new Vector2((float)location1.X, (float)location1.Y), true);
 
 			TouchPanel.GestureList.Enqueue (new GestureSample (
 				GestureType.Rotation, new TimeSpan (DateTime.Now.Ticks),
@@ -434,7 +434,7 @@ namespace Microsoft.Xna.Framework {
 		public void OnTapGesture (UITapGestureRecognizer sender)
 		{
 			var location = sender.LocationInView (sender.View);
-			var position = GetOffsetPosition (new Vector2 (location.X, location.Y), true);
+            var position = GetOffsetPosition (new Vector2 ((float)location.X, (float)location.Y), true);
 			TouchPanel.GestureList.Enqueue (new GestureSample (
 				GestureType.Tap, new TimeSpan (DateTime.Now.Ticks),
 				position, Vector2.Zero,
@@ -444,7 +444,7 @@ namespace Microsoft.Xna.Framework {
 		public void OnDoubleTapGesture (UITapGestureRecognizer sender)
 		{
 			var location = sender.LocationInView (sender.View);
-			var position = GetOffsetPosition (new Vector2 (location.X, location.Y), true);
+            var position = GetOffsetPosition (new Vector2 ((float)location.X, (float)location.Y), true);
 			TouchPanel.GestureList.Enqueue (new GestureSample (
 				GestureType.DoubleTap, new TimeSpan (DateTime.Now.Ticks),
 				position, Vector2.Zero,
