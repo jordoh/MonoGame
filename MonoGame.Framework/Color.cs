@@ -126,7 +126,7 @@ namespace Microsoft.Xna.Framework
         {
             get
             {
-                return (byte)this._packedValue;
+                return (byte)(this._packedValue & 0x000000ff);
             }
             set
             {
@@ -138,33 +138,37 @@ namespace Microsoft.Xna.Framework
         {
             get
             {
-                return (byte)(this._packedValue >> 8);
+                return (byte)((this._packedValue & 0x0000ff00) >> 8);
             }
             set
             {
-                this._packedValue = (this._packedValue & 0xffff00ff) | ((uint)(value << 8));
+                unchecked {
+                    this._packedValue = (this._packedValue & 0xffff00ff) | ((uint)value << 8);
+                }
             }
         }
         public byte R
         {
             get
             {
-                return (byte)(this._packedValue >> 16);
+                return (byte)((this._packedValue & 0x00ff0000) >> 16);
             }
             set
             {
-                this._packedValue = (this._packedValue & 0xff00ffff) | ((uint)(value << 16 ));
+                unchecked {
+                    this._packedValue = (this._packedValue & 0xff00ffff) | ((uint)value << 16);
+                }
             }
         }
         public byte A
         {
             get
             {
-                return (byte)(this._packedValue >> 24);
+                return (byte)((this._packedValue & 0xff000000) >> 24);
             }
             set
             {
-                this._packedValue = (this._packedValue & 0x00ffffff) | ((uint)(value << 24));
+                this._packedValue = (this._packedValue & 0x00ffffff) | ((uint)value << 24);
             }
         }
 		
