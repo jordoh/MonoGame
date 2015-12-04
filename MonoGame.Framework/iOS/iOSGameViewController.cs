@@ -110,6 +110,7 @@ namespace Microsoft.Xna.Framework {
 			get { return (iOSGameView) base.View; }
 		}
 
+        #region Autorotation for iOS 5 or older
 		public override bool ShouldAutorotateToInterfaceOrientation (UIInterfaceOrientation toInterfaceOrientation)
 		{
 			DisplayOrientation supportedOrientations;
@@ -121,15 +122,64 @@ namespace Microsoft.Xna.Framework {
 			var toOrientation = OrientationConverter.ToDisplayOrientation (toInterfaceOrientation);
 			return (toOrientation & supportedOrientations) == toOrientation;
 		}
+        #endregion
+
+        #region Autorotation for iOS 6 or newer
+        public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations()
+        {
+            return OrientationConverter.ToUIInterfaceOrientationMask(this.SupportedOrientations);
+        }
+
+        public override bool ShouldAutorotate()
+        {
+            return true;
+        }
+        #endregion
 
 		public override void DidRotate (UIInterfaceOrientation fromInterfaceOrientation)
 		{
-			base.DidRotate (fromInterfaceOrientation);
+			base.DidRotate(fromInterfaceOrientation);
 
 			var handler = InterfaceOrientationChanged;
 			if (handler != null)
-				handler (this, EventArgs.Empty);
+				handler(this, EventArgs.Empty);
 		}
+
+        #region Hide statusbar for iOS 7 or newer
+        public override bool PrefersStatusBarHidden()
+        {
+            return true;
+        }
+        #endregion
+
+        #region iOS 8 or newer
+
+        public override void ViewWillTransitionToSize(CoreGraphics.CGSize toSize, IUIViewControllerTransitionCoordinator coordinator)
+        {
+            CoreGraphics.CGSize oldSize = View.Bounds.Size;
+
+            if (oldSize != toSize)
+            {
+                UIInterfaceOrientation prevOrientation = InterfaceOrientation;
+
+                // In iOS 8+ DidRotate is no longer called after a rotation
+                // But we need to notify iOSGamePlatform to update back buffer so we explicitly call it 
+
+                // We do this within the animateAlongside action, which at the point of calling
+                // will have the new InterfaceOrientation set
+                coordinator.AnimateAlongsideTransition((context) =>
+                {
+                    DidRotate(prevOrientation);
+                }, (context) => 
+                {
+                });
+
+            }
+
+            base.ViewWillTransitionToSize(toSize, coordinator);
+        }
+
+        #endregion
 
 		private DisplayOrientation? _defaultSupportedOrientations;
 		/// <summary>
