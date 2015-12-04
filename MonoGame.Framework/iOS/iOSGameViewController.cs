@@ -104,6 +104,10 @@ namespace Microsoft.Xna.Framework {
 			}
 
 			base.View = new iOSGameView (_platform, frame);
+
+            // Need to set resize mask to ensure a view resize (which in iOS 8+ corresponds with a rotation) adjusts
+            // the view and underlying CALayer correctly
+            View.AutoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight;
 		}
 
 		public new iOSGameView View {

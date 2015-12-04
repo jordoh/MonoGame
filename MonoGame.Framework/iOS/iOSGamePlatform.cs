@@ -108,7 +108,6 @@ namespace Microsoft.Xna.Framework
             game.Services.AddService (typeof(UIViewController), _viewController);
             Window = new iOSGameWindow (_viewController);
 
-            _mainWindow.RootViewController = _viewController;
             _mainWindow.Add (_viewController.View);
         }
 
@@ -176,6 +175,11 @@ namespace Microsoft.Xna.Framework
         {
             // Show the window
             _mainWindow.MakeKeyAndVisible();
+
+            // In iOS 8+ we need to set the root view controller *after* Window MakeKey
+            // This ensures that the viewController's supported interface orientations
+            // will be respected at launch
+            _mainWindow.RootViewController = _viewController;
 
             Accelerometer.SetupAccelerometer();
             BeginObservingUIApplication();
